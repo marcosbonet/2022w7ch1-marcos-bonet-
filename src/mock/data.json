@@ -1,0 +1,28 @@
+{
+    "tasks": [
+        {
+            "title": "Estudiar",
+            "responsible": "Ernesto",
+            "id": 1,
+            "isComplete": true
+        },
+        {
+            "title": "Dormir",
+            "responsible": "Pepe",
+            "id": 2,
+            "isComplete": true
+        },
+        {
+            "title": "Aprender Flux",
+            "responsible": "Todos",
+            "isComplete": false,
+            "id": 3
+        },
+        {
+            "title": "Added task",
+            "responsible": "",
+            "isComplete": false,
+            "id": 4
+        }
+    ]
+}
