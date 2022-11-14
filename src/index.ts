@@ -1,8 +1,8 @@
 import http from 'http';
 import { app } from './app.js';
-import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import * as dotenv from 'dotenv';
+import { CustomError } from './Interfaces/error.js';
 dotenv.config();
-import { CustomError } from './interfaces/error';
 
 const port = process.env.PORT || 3300;
 const server = http.createServer(app);

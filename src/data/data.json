@@ -1,0 +1,68 @@
+{
+    "argentinianPlayer": [
+        {
+            "player": "EmilianoMartínez",
+            "position": "Portero",
+            "age": 30,
+            "club": "Aston Villa",
+            "id": 1,
+            "marketPrice": "25,00 mill"
+        },
+        {
+            "player": "Cristian Romero ",
+            "position": "Portero",
+            "age": 24,
+            "club": "Defensa central",
+            "id": 2,
+            "marketPrice": "55,00 mill"
+        },
+        {
+            "player": "EmilianoMartínez",
+            "position": "Defensa central",
+            "age": 24,
+            "club": "Manchester united",
+            "id": 3,
+            "marketPrice": "50,00 mill"
+        },
+        {
+            "player": "Marcos Acuña ",
+            "position": "lateral Izquierdo",
+            "age": 31,
+            "club": "Sevilla fc",
+            "id": 4,
+            "marketPrice": "14,00 mill"
+        },
+        {
+            "player": "Juan foith",
+            "position": "Lateral derecho",
+            "age": 24,
+            "club": "Villareal cf",
+            "id": 5,
+            "marketPrice": "25,00 mill"
+        },
+        {
+            "player": "Guido Roduiguez",
+            "position": "Pivote",
+            "age": 28,
+            "club": "Real betis balonpie",
+            "id": 6,
+            "marketPrice": "28,00 mill"
+        },
+        {
+            "player": "Rodrigo de Paul",
+            "position": "Medio Centro",
+            "age": 28,
+            "club": "Atletico de Madrid",
+            "id": 7,
+            "marketPrice": "35,00 mill"
+        },
+        {
+            "player": "Enzo Fernandez",
+            "position": "Medio Centro",
+            "age": 21,
+            "club": "SL Benfica",
+            "id": 8,
+            "marketPrice": "35,00 mill"
+        }
+    ]
+}

@@ -1,37 +1,41 @@
+import fs from 'fs/promises';
+import { PlayerTypes } from '../Interfaces/Argentinian.player.js';
+import importData from '../data/data.json' assert { type: 'json' };
 import { NextFunction, Request, Response } from 'express';
-import { Task } from '../interfaces/task.js';
-import importData from '../mock/data.json' assert { type: 'json' };
 
-// eslint-disable-next-line prefer-const
-let data: Array<Task> = importData.tasks;
+async () => {
+    const file = '../data/data.json';
+    const data = await fs.readFile(file);
+    const info = 'Argentinian Player';
+    console.log(data.toLocaleString());
+};
 
-export class TaskController {
+let data: Array<PlayerTypes> = importData.argentinianPlayer;
+
+export class PlayerController {
     getAll(req: Request, resp: Response) {
         resp.json(data);
         resp.end();
     }
 
-    get(req: Request, resp: Response) {
-        //
-    }
-
     post(req: Request, resp: Response) {
-        const newTask = {
+        const newPlayer = {
             ...req.body,
             id: data.length + 1,
         };
-        data.push(newTask);
-        resp.json(newTask);
+        data.push(newPlayer);
+        resp.json(newPlayer);
         resp.end();
     }
 
     patch(req: Request, resp: Response) {
-        const updateTask = {
+        const updatePlayer = {
             ...data.find((item) => item.id === +req.params.id),
             ...req.body,
         };
-        data[data.findIndex((item) => item.id === +req.params.id)] = updateTask;
-        resp.json(updateTask);
+        data[data.findIndex((item) => item.id === +req.params.id)] =
+            updatePlayer;
+        resp.json(updatePlayer);
         resp.end();
     }
 

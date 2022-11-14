@@ -1,28 +1,24 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import { taskRouter } from './router/task.js';
+import { playerRouter } from './router/player.js';
 
 export const app = express();
-// let data: Array<Task> = importData.tasks;
 
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
-app.use((_req, _resp, next) => {
-    console.log('Middleware');
-    next();
-});
+app.get(
+    '/',
+    (_req: any, resp: { send: (arg0: string) => void; end: () => void }) => {
+        resp.send('Hello word');
+        resp.end();
+    }
+);
 
-app.get('/', (req, res) => {
-    res.send('API Express de tareas');
-    res.end();
-});
+app.use('/argentinianPlayer', playerRouter);
 
-app.use('/tasks', taskRouter);
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: Error, _req: Request, resp: Response, next: NextFunction) => {
     console.log(error.message);
     let status = 500;
