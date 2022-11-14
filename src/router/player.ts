@@ -4,6 +4,7 @@ import { PlayerController } from '../controllers/player.js';
 export const playerRouter = Router();
 
 const controller = new PlayerController();
+playerRouter.get('/:id', controller.get);
 
 playerRouter.get('/', controller.getAll);
 

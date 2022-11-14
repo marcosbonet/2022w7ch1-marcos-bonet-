@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 async () => {
     const file = '../data/data.json';
     const data = await fs.readFile(file);
-    const info = 'Argentinian Player';
+    const info = 'argentinian Player';
     console.log(data.toLocaleString());
 };
 
@@ -14,6 +14,11 @@ let data: Array<PlayerTypes> = importData.argentinianPlayer;
 
 export class PlayerController {
     getAll(req: Request, resp: Response) {
+        resp.json(data);
+        resp.end();
+    }
+    get(req: Request, resp: Response) {
+        data = data.filter((item) => item.id === +req.params.id);
         resp.json(data);
         resp.end();
     }
