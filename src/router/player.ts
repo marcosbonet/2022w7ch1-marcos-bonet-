@@ -1,13 +1,15 @@
 import { Router } from 'express';
 import { PlayerController } from '../controllers/player.js';
+import { PlayerFileData } from '../repository/player.file.repository.js';
 
 export const playerRouter = Router();
 
-const controller = new PlayerController();
-playerRouter.get('/:id', controller.get);
+const controller = new PlayerController(new PlayerFileData());
 
-playerRouter.get('/', controller.getAll);
+playerRouter.get('/:id', controller.get.bind(controller));
 
-playerRouter.post('/', controller.post);
-playerRouter.patch('/:id', controller.patch);
-playerRouter.delete('/:id', controller.delete);
+playerRouter.get('/', controller.getAll.bind(controller));
+
+playerRouter.post('/', controller.post.bind(controller));
+playerRouter.patch('/:id', controller.patch.bind(controller));
+playerRouter.delete('/:id', controller.delete.bind(controller));
