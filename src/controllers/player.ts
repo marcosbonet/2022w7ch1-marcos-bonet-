@@ -1,56 +1,101 @@
-import fs from 'fs/promises';
-import { PlayerTypes } from '../Interfaces/Argentinian.player.js';
-import importData from '../data/data.json' assert { type: 'json' };
 import { NextFunction, Request, Response } from 'express';
-
-async () => {
-    const file = '../data/data.json';
-    const data = await fs.readFile(file);
-    const info = 'argentinian Player';
-    console.log(data.toLocaleString());
-};
-
-let data: Array<PlayerTypes> = importData.argentinianPlayer;
+import { PlayerTypes } from '../Interfaces/Argentinian.player.js';
+import { HTTPError } from '../Interfaces/error.js';
+import { Data } from '../repository/repository.js';
 
 export class PlayerController {
-    getAll(req: Request, resp: Response) {
-        resp.json(data);
-        resp.end();
-    }
-    get(req: Request, resp: Response) {
-        data = data.filter((item) => item.id === +req.params.id);
-        resp.json(data);
-        resp.end();
-    }
-
-    post(req: Request, resp: Response) {
-        const newPlayer = {
-            ...req.body,
-            id: data.length + 1,
-        };
-        data.push(newPlayer);
-        resp.json(newPlayer);
-        resp.end();
-    }
-
-    patch(req: Request, resp: Response) {
-        const updatePlayer = {
-            ...data.find((item) => item.id === +req.params.id),
-            ...req.body,
-        };
-        data[data.findIndex((item) => item.id === +req.params.id)] =
-            updatePlayer;
-        resp.json(updatePlayer);
-        resp.end();
-    }
-
-    delete(req: Request, resp: Response, next: NextFunction) {
-        if (!data.find((item) => item.id === +req.params.id)) {
-            next(new Error('Not found'));
+    constructor(public dataModel: Data<PlayerTypes>) {}
+    async getAll(req: Request, resp: Response, next: NextFunction) {
+        try {
+            const data = await this.dataModel.getAll();
+            resp.json(data).end();
+        } catch (error) {
+            const httpError = new HTTPError(
+                503,
+                'Service unavailable',
+                (error as Error).message
+            );
+            next(httpError);
             return;
         }
-        data = data.filter((item) => item.id !== +req.params.id);
-        resp.json({});
-        resp.end();
+    }
+
+    get(req: Request, resp: Response) {
+        //
+    }
+
+    async post(req: Request, resp: Response, next: NextFunction) {
+        if (!req.body.title) {
+            const httpError = new HTTPError(
+                406,
+                'Not Acceptable',
+                'Title not included in the data'
+            );
+            next(httpError);
+            return;
+        }
+        try {
+            const newTask = await this.dataModel.post(req.body);
+            resp.json(newTask).end();
+        } catch (error) {
+            const httpError = new HTTPError(
+                503,
+                'Service unavailable',
+                (error as Error).message
+            );
+            next(httpError);
+            return;
+        }
+    }
+
+    async patch(req: Request, resp: Response, next: NextFunction) {
+        try {
+            const updateTask = await this.dataModel.patch(
+                +req.params.id,
+                req.body
+            );
+            resp.json(updateTask).end();
+        } catch (error) {
+            if ((error as Error).message === 'Not found id') {
+                const httpError = new HTTPError(
+                    404,
+                    'Not Found',
+                    (error as Error).message
+                );
+                next(httpError);
+                return;
+            }
+            const httpError = new HTTPError(
+                503,
+                'Service unavailable',
+                (error as Error).message
+            );
+            next(httpError);
+            return;
+        }
+    }
+
+    async delete(req: Request, resp: Response, next: NextFunction) {
+        try {
+            await this.dataModel.delete(+req.params.id);
+            resp.json({}).end();
+        } catch (error) {
+            if ((error as Error).message === 'Not found id') {
+                const httpError = new HTTPError(
+                    404,
+                    'Not Found',
+                    (error as Error).message
+                );
+                next(httpError);
+                return;
+            }
+            const httpError = new HTTPError(
+                503,
+                'Service unavailable',
+                (error as Error).message
+            );
+            next(httpError);
+            return;
+        }
     }
 }
