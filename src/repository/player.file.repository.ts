@@ -1,7 +1,8 @@
 import fs from 'fs/promises';
 import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-import { Players, PlayerTypes } from '../interfaces/Argentinian.player';
+
 import { Data } from './repository';
+import { PlayerTypes } from '../interfaces/Argentinian.player';
 dotenv.config();
 
 export class PlayerFileData implements Data<PlayerTypes> {
@@ -12,7 +13,7 @@ export class PlayerFileData implements Data<PlayerTypes> {
 
     async getAll(): Promise<Array<PlayerTypes>> {
         return fs.readFile(this.dataFileURL, 'utf-8').then((data) => {
-            const saveArr = JSON.parse(data) as Players;
+            const saveArr = JSON.parse(data) as PlayerTypes;
             return saveArr.players;
         });
     }
