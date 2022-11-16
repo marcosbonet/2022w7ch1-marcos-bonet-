@@ -1,10 +1,10 @@
 import http from 'http';
 import { app } from './app.js';
 import * as dotenv from 'dotenv';
-import { CustomError } from './Interfaces/error.js';
+import { CustomError } from './interfaces/error.js';
 dotenv.config();
 
-
+//bugfix render import
 const port = process.env.PORT || 3300;
 const server = http.createServer(app);
 server.on('listening', () => {

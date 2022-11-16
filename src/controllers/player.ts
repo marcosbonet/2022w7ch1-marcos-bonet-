@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { PlayerTypes } from '../Interfaces/Argentinian.player.js';
-import { HTTPError } from '../Interfaces/error.js';
+import { PlayerTypes } from '../interfaces/Argentinian.player.js';
+import { HTTPError } from '../interfaces/error.js';
 import { Data } from '../repository/repository.js';
 
 export class PlayerController {

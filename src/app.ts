@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { playerRouter } from './router/player.js';
-import { CustomError } from './Interfaces/error.js';
+import { CustomError } from './interfaces/error.js';
 
 export const app = express();
 
