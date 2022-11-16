@@ -1,7 +1,6 @@
 import fs from 'fs/promises';
-import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-
-import { Data } from './repository';
+import * as dotenv from 'dotenv';
+import { Data } from './repository.js';
 import { PlayerTypes, Players } from '../interfaces/argentinian.Player.js';
 
 dotenv.config();
@@ -15,7 +14,7 @@ export class PlayerFileData implements Data<PlayerTypes> {
     async getAll(): Promise<PlayerTypes[]> {
         return fs
             .readFile(this.dataFileURL, 'utf-8')
-            .then((data) => JSON.parse(data).things as PlayerTypes[]);
+            .then((data) => JSON.parse(data) as PlayerTypes[]);
     }
 
     async get(id: number): Promise<PlayerTypes> {
@@ -53,7 +52,7 @@ export class PlayerFileData implements Data<PlayerTypes> {
     async delete(id: number): Promise<void> {
         const aData = await this.getAll();
         const index = aData.findIndex((item) => item.id === id);
-        if (!index) throw new Error('Not found id');
+        if (index < 0) throw new Error('Not found id');
         await this.#saveData({
             players: aData.filter((item) => item.id !== id),
         });
