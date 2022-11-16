@@ -5,6 +5,9 @@ export type ProtoPlayer = {
     club: string;
     marketPrice: string;
 };
+export type Players = {
+    players: PlayerTypes[];
+};
 
 export type PlayerTypes = {
     player: string;

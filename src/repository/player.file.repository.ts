@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-import { PlayerTypes } from '../Interfaces/Argentinian.player';
+import { Players, PlayerTypes } from '../Interfaces/Argentinian.player';
 import { Data } from './repository';
 dotenv.config();
 
@@ -11,9 +11,10 @@ export class PlayerFileData implements Data<PlayerTypes> {
     }
 
     async getAll(): Promise<Array<PlayerTypes>> {
-        return fs
-            .readFile(this.dataFileURL, 'utf-8')
-            .then((data) => JSON.parse(data) as Array<PlayerTypes>);
+        return fs.readFile(this.dataFileURL, 'utf-8').then((data) => {
+            const saveArr = JSON.parse(data) as Players;
+            return saveArr.players;
+        });
     }
 
     async get(id: number): Promise<PlayerTypes> {
@@ -29,7 +30,7 @@ export class PlayerFileData implements Data<PlayerTypes> {
         const aData = await this.getAll();
         const finalTask = { ...(newTask as PlayerTypes), id: this.#createID() };
         aData.push(finalTask);
-        await this.#saveData(aData);
+        await this.#saveData({ players: aData });
         return finalTask;
     }
 
@@ -44,7 +45,7 @@ export class PlayerFileData implements Data<PlayerTypes> {
             ...aData[index],
             ...updateTask,
         };
-        await this.#saveData(aData);
+        await this.#saveData({ players: aData });
         return aData[index];
     }
 
@@ -53,14 +54,14 @@ export class PlayerFileData implements Data<PlayerTypes> {
         const index = aData.findIndex((item) => item.id === id);
         if (!index) throw new Error('Not found id');
         aData.filter((item) => item.id !== id);
-        await this.#saveData(aData);
+        await this.#saveData({ players: aData });
     }
 
     #createID() {
         return Math.trunc(Math.random() * 1_000_000_000);
     }
 
-    #saveData(data: Array<PlayerTypes>) {
+    #saveData(data: Players) {
         return fs.writeFile(this.dataFileURL, JSON.stringify(data));
     }
 }
