@@ -1,4 +1,4 @@
-export type ProtoPlayerTypes = {
+export type Player = {
     player: string;
     position: string;
     age: number;
