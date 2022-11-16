@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { PlayerTypes } from '../interfaces/Argentinian.player.js';
+import { PlayerTypes } from '../interfaces/argentinian.player.js';
 import { HTTPError } from '../interfaces/error.js';
 import { Data } from '../repository/repository.js';
 

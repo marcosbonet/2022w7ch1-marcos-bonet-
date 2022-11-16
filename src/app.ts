@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (_req, res) => {
-    res.send('Argentinian PLayer API').end();
+    res.send('argentinian PLayer API').end();
 });
 
 app.use('/argentinianPlayer', playerRouter);

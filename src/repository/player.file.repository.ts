@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 
 import { Data } from './repository';
-import { PlayerTypes, Players } from '../interfaces/Argentinian.player';
+import { PlayerTypes, Players } from '../interfaces/argentinian.player';
 
 dotenv.config();
 
