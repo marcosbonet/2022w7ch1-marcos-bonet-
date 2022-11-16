@@ -6,6 +6,9 @@ export type Player = {
     id: number;
     marketPrice: string;
 };
+export type Players = {
+    players: PlayerTypes[];
+};
 
 export type PlayerTypes = {
     player: string;
