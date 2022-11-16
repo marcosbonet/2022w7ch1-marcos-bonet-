@@ -17,18 +17,23 @@ app.get('/', (_req, res) => {
 app.use('/argentinianPlayer', playerRouter);
 
 app.use(
-    (error: CustomError, _req: Request, resp: Response, next: NextFunction) => {
+    (
+        error: CustomError,
+        _req: Request,
+        resp: Response,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        next: NextFunction
+    ) => {
         console.log(
-            error.message,
+            error.name,
             error.statusCode,
             error.statusMessage,
             error.message
         );
-        let status = 500;
+        let status = error.statusCode || 500;
         if (error.name === 'ValidationError') {
             status = 406;
         }
-
         const result = {
             status: status,
             type: error.name,

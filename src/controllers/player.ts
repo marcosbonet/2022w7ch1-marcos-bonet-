@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { PlayerTypes } from '../interfaces/argentinian.player.js';
+import { PlayerTypes } from '../interfaces/argentinian.Player.js';
+
 import { HTTPError } from '../interfaces/error.js';
 import { Data } from '../repository/repository.js';
 
@@ -20,8 +21,28 @@ export class PlayerController {
         }
     }
 
-    get(req: Request, resp: Response) {
-        //
+    async get(req: Request, resp: Response, next: NextFunction) {
+        try {
+            const data = await this.dataModel.get(+req.params.id);
+            resp.json(data).end();
+        } catch (error) {
+            if ((error as Error).message === 'Not found id') {
+                const httpError = new HTTPError(
+                    404,
+                    'Not Found',
+                    (error as Error).message
+                );
+                next(httpError);
+                return;
+            }
+            const httpError = new HTTPError(
+                503,
+                'Service unavailable',
+                (error as Error).message
+            );
+            next(httpError);
+            return;
+        }
     }
 
     async post(req: Request, resp: Response, next: NextFunction) {
