@@ -9,7 +9,7 @@ export class PlayerController {
     async getAll(req: Request, resp: Response, next: NextFunction) {
         try {
             const data = await this.dataModel.getAll();
-            resp.json(data).end();
+            resp.json({ data });
         } catch (error) {
             const httpError = new HTTPError(
                 503,
@@ -17,47 +17,22 @@ export class PlayerController {
                 (error as Error).message
             );
             next(httpError);
-            return;
         }
     }
 
     async get(req: Request, resp: Response, next: NextFunction) {
         try {
             const data = await this.dataModel.get(+req.params.id);
-            resp.json(data).end();
+            resp.json({ data });
         } catch (error) {
-            if ((error as Error).message === 'Not found id') {
-                const httpError = new HTTPError(
-                    404,
-                    'Not Found',
-                    (error as Error).message
-                );
-                next(httpError);
-                return;
-            }
-            const httpError = new HTTPError(
-                503,
-                'Service unavailable',
-                (error as Error).message
-            );
-            next(httpError);
-            return;
+            next(this.#createHttpError(error as Error));
         }
     }
 
     async post(req: Request, resp: Response, next: NextFunction) {
-        if (!req.body.title) {
-            const httpError = new HTTPError(
-                406,
-                'Not Acceptable',
-                'Title not included in the data'
-            );
-            next(httpError);
-            return;
-        }
         try {
-            const newTask = await this.dataModel.post(req.body);
-            resp.json(newTask).end();
+            const player = await this.dataModel.post(req.body);
+            resp.json({ player });
         } catch (error) {
             const httpError = new HTTPError(
                 503,
@@ -65,34 +40,15 @@ export class PlayerController {
                 (error as Error).message
             );
             next(httpError);
-            return;
         }
     }
 
     async patch(req: Request, resp: Response, next: NextFunction) {
         try {
-            const updateTask = await this.dataModel.patch(
-                +req.params.id,
-                req.body
-            );
-            resp.json(updateTask).end();
+            const player = await this.dataModel.patch(+req.params.id, req.body);
+            resp.json({ player });
         } catch (error) {
-            if ((error as Error).message === 'Not found id') {
-                const httpError = new HTTPError(
-                    404,
-                    'Not Found',
-                    (error as Error).message
-                );
-                next(httpError);
-                return;
-            }
-            const httpError = new HTTPError(
-                503,
-                'Service unavailable',
-                (error as Error).message
-            );
-            next(httpError);
-            return;
+            next(this.#createHttpError(error as Error));
         }
     }
 
@@ -101,22 +57,24 @@ export class PlayerController {
             await this.dataModel.delete(+req.params.id);
             resp.json({}).end();
         } catch (error) {
-            if ((error as Error).message === 'Not found id') {
-                const httpError = new HTTPError(
-                    404,
-                    'Not Found',
-                    (error as Error).message
-                );
-                next(httpError);
-                return;
-            }
-            const httpError = new HTTPError(
-                503,
-                'Service unavailable',
-                (error as Error).message
-            );
-            next(httpError);
+            next(this.#createHttpError(error as Error));
             return;
         }
+    }
+    #createHttpError(error: Error) {
+        if ((error as Error).message === 'Not found id') {
+            const httpError = new HTTPError(
+                404,
+                'Not Found',
+                (error as Error).message
+            );
+            return httpError;
+        }
+        const httpError = new HTTPError(
+            503,
+            'Service unavailable',
+            (error as Error).message
+        );
+        return httpError;
     }
 }
