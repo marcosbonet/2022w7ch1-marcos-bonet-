@@ -2,4 +2,10 @@
 const preset = 'ts-jest';
 const testEnvironment = 'node';
 const testPathIgnorePatterns = ['dist'];
-export default { preset, testEnvironment, testPathIgnorePatterns };
+const resolver = 'jest-ts-webcompat-resolver';
+export default {
+    preset,
+    testEnvironment,
+    testPathIgnorePatterns,
+    resolver,
+};
