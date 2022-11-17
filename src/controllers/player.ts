@@ -22,7 +22,7 @@ export class PlayerController {
 
     async get(req: Request, resp: Response, next: NextFunction) {
         try {
-            const data = await this.dataModel.get(+req.params.id);
+            const data = await this.dataModel.get(req.params.id);
             resp.json({ data });
         } catch (error) {
             next(this.#createHttpError(error as Error));
@@ -45,7 +45,7 @@ export class PlayerController {
 
     async patch(req: Request, resp: Response, next: NextFunction) {
         try {
-            const player = await this.dataModel.patch(+req.params.id, req.body);
+            const player = await this.dataModel.patch(req.params.id, req.body);
             resp.json({ player });
         } catch (error) {
             next(this.#createHttpError(error as Error));
@@ -54,7 +54,7 @@ export class PlayerController {
 
     async delete(req: Request, resp: Response, next: NextFunction) {
         try {
-            await this.dataModel.delete(+req.params.id);
+            await this.dataModel.delete(req.params.id);
             resp.json({}).end();
         } catch (error) {
             next(this.#createHttpError(error as Error));

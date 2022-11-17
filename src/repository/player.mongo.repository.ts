@@ -25,7 +25,7 @@ export class PLayerRepository implements Data<PlayerTypes> {
     async getAll(): Promise<Array<PlayerTypes>> {
         return this.#Model.find();
     }
-    async get(id: number): Promise<PlayerTypes> {
+    async get(id: string): Promise<PlayerTypes> {
         const result = await this.#Model.findById(id); //as PlayerTypes;
         if (!result) throw new Error('Not found id');
         return result as PlayerTypes;
@@ -35,7 +35,7 @@ export class PLayerRepository implements Data<PlayerTypes> {
         const result = await this.#Model.create(data);
         return result as PlayerTypes;
     }
-    async patch(id: number, data: Partial<PlayerTypes>): Promise<PlayerTypes> {
+    async patch(id: string, data: Partial<PlayerTypes>): Promise<PlayerTypes> {
         const result = await this.#Model.findByIdAndUpdate(id, data, {
             new: true,
         });
@@ -43,7 +43,7 @@ export class PLayerRepository implements Data<PlayerTypes> {
         return result as PlayerTypes;
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         const result = await this.#Model.findByIdAndDelete(id);
         if (result === null) throw new Error('Not found id');
         return;

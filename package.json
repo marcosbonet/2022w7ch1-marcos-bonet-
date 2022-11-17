@@ -8,6 +8,7 @@
         "start": "dist/index.js",
         "start:dev": "cross-env PORT=7700 nodemon dist/index.js",
         "build": "tsc",
+        "build:dev": "tsc --watch",
         "test": "jest --watchAll --coverage",
         "test:prod": "jest --coverage",
         "start:build": "run-p build start:dev"
