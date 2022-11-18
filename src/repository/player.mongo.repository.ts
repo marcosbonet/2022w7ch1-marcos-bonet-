@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose';
-import { PlayerProto, PlayerTypes } from '../interfaces/argentinian.Player.js';
+import { PlayerProto, PlayerTypes } from '../entities/argentinian.Player.js';
 import { Data } from './repository.js';
 
 export class PLayerRepository implements Data<PlayerTypes> {

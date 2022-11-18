@@ -4,7 +4,9 @@ import * as dotenv from 'dotenv';
 import { CustomError } from './interfaces/error.js';
 import { dbConnect } from './DB.connect.js';
 dotenv.config();
-
+import debugFactory from 'debug';
+const debug = debugFactory('http');
+debug('Hello debug');
 //bugfix render import
 const port = process.env.PORT || 3300;
 const server = http.createServer(app);

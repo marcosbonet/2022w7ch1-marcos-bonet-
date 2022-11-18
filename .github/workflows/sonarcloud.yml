@@ -42,6 +42,7 @@ jobs:
   SonarCloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -50,6 +51,10 @@ jobs:
         run: npm ci
       - name: Testing coverage
         run: npm run test:prod #Change for a valid npm script
+        env:
+          USER: ${{ secrets.USER}}
+          PASSW: ${{ secrets.PASSW}}
+          CLUSTER: ${{ secrets.CLUSTER}}
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
